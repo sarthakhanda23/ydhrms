@@ -978,7 +978,7 @@
          */
 
         // ✅ Cloudflare Worker AI Proxy
-        const AI_PROXY_URL = "https://dawn-truth-019c.sarthakh23.workers.dev/";
+        const AI_PROXY_URL = "/api/nova";
 
         // --- 1. MOCK DATA LAYER ---
         const MockData = {
@@ -1537,17 +1537,8 @@
                         headers: { "Content-Type": "application/json" },
                         signal: controller.signal,
                         body: JSON.stringify({
-                            inputs: `You are Nova, an HR assistant for Yogiji Digi.
-Employee: ${MockData.currentUser.name}
-Question: ${text}
-
-Answer in under 60 words.`,
-                            parameters: {
-                                max_new_tokens: 120,
-                                temperature: 0.4,
-                                return_full_text: false
-                            }
-                        })
+  message: text
+})
                     });
                     
                     clearTimeout(timeout);
