@@ -146,7 +146,7 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             transition: background-color var(--duration-normal) var(--ease-out), color var(--duration-normal) var(--ease-out);
-            /* New: Ambient background noise/gradient for depth */
+            /* Ambient background noise/gradient for depth */
             background-image: radial-gradient(circle at 10% 10%, rgba(157, 34, 53, 0.03) 0%, transparent 40%);
         }
 
@@ -977,7 +977,7 @@
          * YOGIJI DIGI HR-OS CORE ENGINE v2.0
          */
 
-        // ✅ Cloudflare Worker AI Proxy
+        // ✅ AI Vercel Proxy Route
         const AI_PROXY_URL = "/api/nova";
 
         // --- 1. MOCK DATA LAYER ---
@@ -1500,7 +1500,7 @@
             }
         };
 
-        // --- 7. REAL AI: NOVA (VIA PROXY) ---
+        // --- 7. REAL AI: NOVA (UPDATED) ---
         const Nova = {
             isOpen: false,
             toggle: () => {
@@ -1528,17 +1528,18 @@
                 body.scrollTop = body.scrollHeight;
 
                 try {
-                    // NEW: Abort Controller for Timeout
                     const controller = new AbortController();
-                    const timeout = setTimeout(() => controller.abort(), 25000); // 25s timeout
+                    const timeout = setTimeout(() => controller.abort(), 25000); 
+
+                    // UPGRADE 1: Injecting User Context Dynamically
+                    const user = appStore.state.user;
+                    const contextMessage = `[System Context: Current User is ${user.name}, Role: ${user.role}, Leave Balance: ${user.leaves.pl} PL, ${user.leaves.sl} SL, ${user.leaves.cl} CL] \n\n User query: ${text}`;
 
                     const response = await fetch(AI_PROXY_URL, {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         signal: controller.signal,
-                        body: JSON.stringify({
-  message: text
-})
+                        body: JSON.stringify({ message: contextMessage })
                     });
                     
                     clearTimeout(timeout);
@@ -1557,15 +1558,16 @@
                         return;
                     }
 
-                    const reply =
-                    typeof data === "string"
-                    ? data
-                    : data.generated_text
-                    || (Array.isArray(data) ? data[0]?.generated_text : "")
-                    || "No response";
+                    const reply = typeof data === "string" ? data : data.generated_text || (Array.isArray(data) ? data[0]?.generated_text : "") || "No response";
                     
-document.getElementById(loadingId).innerText =
-  typeof reply === "string" ? reply : JSON.stringify(reply);
+                    // UPGRADE 2: Basic Markdown parsing for Bold and Line Breaks
+                    const formatReply = typeof reply === "string" ? reply : JSON.stringify(reply);
+                    const htmlReply = formatReply
+                        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                        .replace(/\n/g, '<br>');
+
+                    document.getElementById(loadingId).innerHTML = htmlReply;
 
 
                 } catch (error) {
