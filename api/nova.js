@@ -12,8 +12,9 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "Message payload is missing." });
     }
 
+    // FIXED: Updated to gemini-2.5-flash (the 1.5 series is retired)
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
       {
         method: "POST",
         headers: {
@@ -37,7 +38,7 @@ export default async function handler(req, res) {
 
     const data = await response.json();
 
-    // VERY IMPORTANT: catch Gemini errors properly
+    // Catch Gemini errors properly
     if (!response.ok) {
       console.error("Gemini API Error:", data);
       return res.status(response.status).json({
