@@ -1,0 +1,1738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="description" content="Yogiji Digi Enterprise HR Operating System">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <title>HR-OS | Yogiji Digi Pvt. Ltd.</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ==========================================================================
+         1. DESIGN SYSTEM & CSS VARIABLES
+         ==========================================================================
+        */
+        :root {
+            /* BRAND PALETTE - YOGIJI DIGI RED */
+            --brand-primary: #9d2235;        /* Yogiji Digi Red */
+            --brand-primary-hover: #7c1b2a;  /* Darker shade */
+            --brand-secondary: #c0392b;      /* Secondary Red */
+            --brand-accent: #f1948a;         /* Soft Red/Pink Accent */
+
+            /* SEMANTIC COLORS (Status) */
+            --color-success: #10B981;
+            --color-success-bg: #D1FAE5;
+            --color-success-text: #065F46;
+
+            --color-warning: #F59E0B;
+            --color-warning-bg: #FEF3C7;
+            --color-warning-text: #92400E;
+
+            --color-danger: #EF4444;
+            --color-danger-bg: #FEE2E2;
+            --color-danger-text: #B91C1C;
+
+            --color-info: #3B82F6;
+            --color-info-bg: #DBEAFE;
+            --color-info-text: #1E40AF;
+
+            /* NEUTRALS (Light Mode Defaults) */
+            --bg-body: #F3F4F6; /* Cool Gray 100 */
+            --bg-surface: #FFFFFF;
+            --bg-surface-hover: #F9FAFB;
+            --bg-sidebar: #F9FAFB;
+            
+            /* TYPOGRAPHY COLORS */
+            --text-primary: #111827; /* Gray 900 */
+            --text-secondary: #6B7280; /* Gray 500 */
+            --text-tertiary: #9CA3AF; /* Gray 400 */
+            --text-on-brand: #FFFFFF;
+
+            /* BORDERS & DIVIDERS */
+            --border-light: #E5E7EB;
+            --border-medium: #D1D5DB;
+            --border-focus: #fca5a5; /* Red tint focus */
+
+            /* SPACING SYSTEM (4px Grid) */
+            --space-1: 4px;
+            --space-2: 8px;
+            --space-3: 12px;
+            --space-4: 16px;
+            --space-5: 20px;
+            --space-6: 24px;
+            --space-8: 32px;
+            --space-10: 40px;
+            --space-12: 48px;
+
+            /* UI TOKEN DEFINITIONS */
+            --radius-sm: 6px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-xl: 16px;
+            --radius-full: 9999px;
+
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-float: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --shadow-glow: 0 0 15px rgba(157, 34, 53, 0.3);
+
+            --font-main: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+
+            /* ANIMATIONS */
+            --ease-out: cubic-bezier(0.25, 0.8, 0.25, 1);
+            --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+            --duration-fast: 150ms;
+            --duration-normal: 300ms;
+
+            /* LAYOUT */
+            --sidebar-width: 260px;
+            --header-height: 64px;
+            --content-max-width: 1200px;
+        }
+
+        /* DARK MODE OVERRIDES */
+        body.dark-mode {
+            --bg-body: #0F172A; /* Slate 900 */
+            --bg-surface: #1E293B; /* Slate 800 */
+            --bg-surface-hover: rgba(157, 34, 53, 0.15); /* Red tint on hover in dark mode */
+            --bg-sidebar: #0F172A;
+
+            --text-primary: #F8FAFC;
+            --text-secondary: #94A3B8;
+            --text-tertiary: #64748B;
+
+            --border-light: #334155;
+            --border-medium: #475569;
+            
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+            --shadow-glow: 0 0 20px rgba(241, 148, 138, 0.2);
+        }
+
+        /* ==========================================================================
+         2. GLOBAL RESET & BASE STYLES
+         ==========================================================================
+        */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            height: 100%;
+            width: 100%;
+            overflow: hidden; 
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-body);
+            color: var(--text-primary);
+            font-size: 13px; 
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            transition: background-color var(--duration-normal) var(--ease-out), color var(--duration-normal) var(--ease-out);
+            /* New: Ambient background noise/gradient for depth */
+            background-image: radial-gradient(circle at 10% 10%, rgba(157, 34, 53, 0.03) 0%, transparent 40%);
+        }
+
+        /* SCROLLBAR STYLING */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-medium);
+            border-radius: var(--radius-full);
+            border: 2px solid transparent;
+            background-clip: content-box;
+        }
+        ::-webkit-scrollbar-thumb:hover { background-color: var(--text-tertiary); }
+
+        /* ==========================================================================
+         3. LAYOUT STRUCTURE
+         ==========================================================================
+        */
+        #app-root { display: flex; height: 100vh; width: 100vw; }
+
+        /* SIDEBAR */
+        #sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--bg-sidebar);
+            border-right: 1px solid var(--border-light);
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+            padding: var(--space-6) var(--space-4);
+            transition: all var(--duration-normal) var(--ease-out);
+            z-index: 20;
+        }
+
+        /* MAIN CONTENT AREA */
+        #main-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            background-color: var(--bg-body);
+        }
+
+        /* HEADER */
+        #header {
+            height: var(--header-height);
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 var(--space-8);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            transition: background-color var(--duration-normal) ease;
+        }
+        
+        body.dark-mode #header { background-color: rgba(15, 23, 42, 0.8); }
+
+        /* VIEWPORT */
+        #content-scroll {
+            flex: 1;
+            overflow-y: auto;
+            padding: var(--space-8);
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: var(--content-max-width);
+            margin: 0 auto;
+            padding-bottom: var(--space-12);
+        }
+
+        /* ==========================================================================
+         4. COMPONENT STYLES
+         ==========================================================================
+        */
+
+        /* SIDEBAR ELEMENTS */
+        .brand-block {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            margin-bottom: var(--space-8);
+            padding: 0 var(--space-2);
+        }
+        .brand-logo { height: 50px; width: auto; }
+        .brand-name { font-weight: 600; font-size: 15px; letter-spacing: -0.01em; color: var(--text-primary); }
+
+        .nav-section { margin-bottom: var(--space-6); }
+        .nav-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-tertiary);
+            font-weight: 600;
+            margin-bottom: var(--space-2);
+            padding-left: var(--space-3);
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-2) var(--space-3);
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            margin-bottom: 2px;
+            font-weight: 500;
+            transition: all var(--duration-fast) var(--ease-out);
+            cursor: pointer;
+            position: relative; /* For ripple */
+            overflow: hidden;
+        }
+        .nav-item:hover {
+            background-color: var(--bg-surface-hover);
+            color: var(--text-primary);
+        }
+        .nav-item.active {
+            background-color: var(--bg-surface);
+            color: var(--brand-primary);
+            box-shadow: var(--shadow-sm);
+        }
+        body.dark-mode .nav-item.active {
+            background-color: rgba(157, 34, 53, 0.1); 
+            color: #f1948a; 
+        }
+
+        .nav-icon { width: 18px; text-align: center; font-size: 14px; }
+
+        /* HEADER ELEMENTS */
+        .breadcrumbs {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            color: var(--text-tertiary);
+            font-size: 13px;
+        }
+        .breadcrumb-active { color: var(--text-primary); font-weight: 500; }
+        
+        .header-actions { display: flex; align-items: center; gap: var(--space-4); }
+
+        .btn-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-light);
+            background: var(--bg-surface);
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all var(--duration-fast);
+        }
+        .btn-icon:hover {
+            border-color: var(--text-tertiary);
+            color: var(--text-primary);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .user-pill {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding: 4px 12px 4px 4px;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            transition: border-color var(--duration-fast);
+        }
+        .user-pill:hover { border-color: var(--border-medium); }
+        .avatar {
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 11px;
+            position: relative;
+        }
+        /* Online status indicator for avatars */
+        .avatar.online::after {
+            content: '';
+            position: absolute;
+            bottom: 0; right: 0;
+            width: 8px; height: 8px;
+            background-color: var(--color-success);
+            border: 2px solid var(--bg-surface);
+            border-radius: 50%;
+        }
+
+        .user-name-text { font-weight: 500; color: var(--text-primary); }
+
+        /* CARDS & PANELS */
+        .card {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            padding: var(--space-6);
+            transition: box-shadow var(--duration-fast), transform var(--duration-fast);
+            position: relative;
+            overflow: hidden;
+        }
+        .card:hover { box-shadow: var(--shadow-md); }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: var(--space-4);
+        }
+        .card-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+        .card-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+            margin-top: var(--space-1);
+        }
+        .card-meta {
+            font-size: 12px;
+            margin-top: var(--space-2);
+            display: flex;
+            align-items: center;
+            gap: var(--space-1);
+        }
+        .meta-up { color: var(--color-success); }
+        .meta-down { color: var(--color-danger); }
+        .meta-neutral { color: var(--text-tertiary); }
+
+        /* GRID SYSTEMS */
+        .grid-dashboard {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-6);
+            margin-bottom: var(--space-8);
+        }
+        .grid-2-col {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: var(--space-6);
+            margin-bottom: var(--space-8);
+        }
+        
+        /* ATTENDANCE COMPONENTS */
+        .punch-clock-visual {
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            border-bottom: 1px solid var(--border-light);
+            background: linear-gradient(to bottom, var(--bg-surface), var(--bg-surface-hover));
+            position: relative;
+        }
+        /* Pulse Animation for Clock */
+        .punch-clock-visual::before {
+            content: '';
+            position: absolute;
+            width: 150px; height: 150px;
+            background: radial-gradient(circle, var(--brand-accent) 0%, transparent 70%);
+            opacity: 0.1;
+            filter: blur(20px);
+            animation: pulse 4s infinite ease-in-out;
+        }
+        @keyframes pulse { 0% { opacity: 0.05; transform: scale(0.9); } 50% { opacity: 0.15; transform: scale(1.1); } 100% { opacity: 0.05; transform: scale(0.9); } }
+
+        .time-display {
+            font-size: 48px;
+            font-weight: 700;
+            font-family: var(--font-mono);
+            letter-spacing: -0.05em;
+            color: var(--text-primary);
+            z-index: 2;
+        }
+        .date-display {
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-bottom: var(--space-4);
+            z-index: 2;
+        }
+        .punch-btn {
+            background-color: var(--brand-primary);
+            color: white;
+            border: none;
+            padding: var(--space-3) var(--space-8);
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(157, 34, 53, 0.3);
+            transition: all var(--duration-fast);
+            z-index: 2;
+        }
+        .punch-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(157, 34, 53, 0.4);
+            background-color: var(--brand-primary-hover);
+        }
+
+        /* TABLES */
+        .data-table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-light);
+            background: var(--bg-surface);
+        }
+        .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        .data-table th {
+            text-align: left;
+            padding: var(--space-3) var(--space-4);
+            border-bottom: 1px solid var(--border-light);
+            background-color: var(--bg-surface-hover);
+            color: var(--text-secondary);
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .data-table td {
+            padding: var(--space-3) var(--space-4);
+            border-bottom: 1px solid var(--border-light);
+            color: var(--text-primary);
+        }
+        .data-table tr:last-child td { border-bottom: none; }
+        .data-table tr:hover td { background-color: var(--bg-surface-hover); }
+
+        /* BADGES */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 2px 8px;
+            border-radius: var(--radius-md);
+            font-size: 11px;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+        .badge-success { background: var(--color-success-bg); color: var(--color-success-text); }
+        .badge-warning { background: var(--color-warning-bg); color: var(--color-warning-text); }
+        .badge-danger { background: var(--color-danger-bg); color: var(--color-danger-text); }
+        .badge-info { background: var(--color-info-bg); color: var(--color-info-text); }
+        
+        /* BLUR PRIVACY & RETINA SCAN */
+        .privacy-blur {
+            filter: blur(8px);
+            user-select: none;
+            cursor: pointer;
+            transition: filter var(--duration-normal);
+        }
+        .privacy-blur:hover, .privacy-blur.revealed { filter: blur(0); }
+        
+        .retina-scan-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-lg);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+        .scan-line {
+            width: 100%;
+            height: 2px;
+            background: #0f0;
+            box-shadow: 0 0 10px #0f0;
+            animation: scanMove 1.5s ease-in-out infinite;
+        }
+        @keyframes scanMove { 0% { transform: translateY(-50px); opacity: 0; } 50% { opacity: 1; } 100% { transform: translateY(50px); opacity: 0; } }
+
+
+        /* COMMAND PALETTE (CMD+K) */
+        #cmd-palette-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(2px);
+            z-index: 999;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 15vh;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+        }
+        #cmd-palette-overlay.open { opacity: 1; pointer-events: auto; }
+        
+        .cmd-modal {
+            width: 100%;
+            max-width: 600px;
+            background: var(--bg-surface);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-float);
+            border: 1px solid var(--border-light);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transform: scale(0.95);
+            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        #cmd-palette-overlay.open .cmd-modal { transform: scale(1); }
+
+        .cmd-input-wrapper {
+            padding: var(--space-4);
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+        }
+        .cmd-icon { color: var(--text-tertiary); font-size: 18px; }
+        #cmd-input {
+            flex: 1;
+            border: none;
+            font-size: 16px;
+            color: var(--text-primary);
+            background: transparent;
+            font-family: var(--font-main);
+        }
+        
+        .cmd-results { max-height: 300px; overflow-y: auto; padding: var(--space-2); }
+        .cmd-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--space-3);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            color: var(--text-primary);
+            transition: background 0.1s;
+        }
+        .cmd-item:hover, .cmd-item.selected { background-color: var(--brand-primary); color: white; }
+        .cmd-item:hover .cmd-shortcut, .cmd-item.selected .cmd-shortcut { color: rgba(255,255,255,0.7); }
+        .cmd-shortcut {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: var(--text-tertiary);
+            border: 1px solid currentColor;
+            padding: 1px 4px;
+            border-radius: 4px;
+        }
+
+        /* TOAST NOTIFICATIONS */
+        #toast-container {
+            position: fixed;
+            bottom: var(--space-6);
+            right: var(--space-6);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-3);
+        }
+        .toast {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-light);
+            padding: var(--space-4);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            min-width: 300px;
+            animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @keyframes slideIn { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .toast-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .toast-content { flex: 1; }
+        .toast-title { font-weight: 600; font-size: 13px; margin-bottom: 2px; }
+        .toast-msg { font-size: 12px; color: var(--text-secondary); }
+
+        /* HEATMAP COMPONENT */
+        .heatmap-grid {
+            display: grid;
+            grid-template-columns: repeat(30, 1fr);
+            gap: 2px;
+            margin-top: var(--space-4);
+        }
+        .heat-cell {
+            aspect-ratio: 1;
+            border-radius: 2px;
+            background-color: var(--bg-surface-hover);
+            transition: transform 0.2s;
+        }
+        .heat-cell:hover { transform: scale(1.5); border-radius: 4px; z-index: 10; }
+        .heat-l1 { background-color: #D1FAE5; }
+        .heat-l2 { background-color: #34D399; }
+        .heat-l3 { background-color: #059669; }
+        
+        /* CSS CHARTS */
+        .bar-chart {
+            display: flex;
+            align-items: flex-end;
+            gap: var(--space-2);
+            height: 120px;
+            padding-top: var(--space-4);
+        }
+        .bar {
+            flex: 1;
+            background-color: var(--brand-primary);
+            border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+            opacity: 0.8;
+            transition: height 0.5s ease;
+            position: relative;
+        }
+        .bar:hover { opacity: 1; }
+        .bar:hover::after {
+            content: attr(data-value);
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 10px;
+            background: #000;
+            color: #fff;
+            padding: 2px 4px;
+            border-radius: 4px;
+            white-space: nowrap;
+        }
+
+        /* NEW: DIGITAL VAULT (DOCUMENTS) STYLES */
+        .vault-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: var(--space-4);
+        }
+        .vault-item {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            padding: var(--space-4);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        .vault-item:hover {
+            border-color: var(--brand-accent);
+            background: var(--bg-surface-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+        .vault-icon { font-size: 32px; color: var(--text-tertiary); margin-bottom: var(--space-3); transition: color 0.2s; }
+        .vault-item:hover .vault-icon { color: var(--brand-primary); }
+        .vault-name { font-size: 12px; font-weight: 500; color: var(--text-primary); line-height: 1.3; }
+        .vault-meta { font-size: 10px; color: var(--text-tertiary); margin-top: 4px; }
+        
+        /* NEW: POLICY READER STYLES */
+        .policy-layout { display: grid; grid-template-columns: 200px 1fr; gap: var(--space-6); height: calc(100vh - 140px); }
+        .policy-nav { border-right: 1px solid var(--border-light); padding-right: var(--space-4); overflow-y: auto; }
+        .policy-link {
+            display: block;
+            padding: var(--space-2) var(--space-3);
+            font-size: 12px;
+            color: var(--text-secondary);
+            border-radius: var(--radius-md);
+            margin-bottom: 2px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .policy-link:hover { background: var(--bg-surface-hover); color: var(--text-primary); }
+        .policy-link.active { background: var(--color-info-bg); color: var(--color-info-text); font-weight: 600; }
+        .policy-content { padding: 0 var(--space-4); overflow-y: auto; }
+        .policy-article h2 { font-size: 20px; margin-bottom: var(--space-4); color: var(--text-primary); }
+        .policy-article p { font-size: 14px; color: var(--text-secondary); margin-bottom: var(--space-4); line-height: 1.6; }
+        .policy-article ul { margin-left: var(--space-4); margin-bottom: var(--space-4); color: var(--text-secondary); }
+        .policy-article li { margin-bottom: var(--space-2); }
+
+        /* NEW: NOVA AI ASSISTANT WIDGET */
+        .nova-widget {
+            position: fixed;
+            bottom: var(--space-6);
+            right: var(--space-6);
+            z-index: 500;
+        }
+        .nova-trigger {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+            box-shadow: 0 4px 15px rgba(157, 34, 53, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+        .nova-trigger:hover { transform: scale(1.1); }
+        .nova-trigger i { font-size: 20px; }
+        .nova-pulse {
+            position: absolute;
+            width: 100%; height: 100%;
+            border-radius: 50%;
+            border: 2px solid var(--brand-accent);
+            animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+        }
+        @keyframes ping { 75%, 100% { transform: scale(2); opacity: 0; } }
+        
+        .nova-chat-window {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            width: 320px;
+            height: 400px;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-float);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transform-origin: bottom right;
+            transform: scale(0);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .nova-chat-window.open { transform: scale(1); opacity: 1; }
+        .nova-header {
+            background: linear-gradient(to right, var(--bg-surface), var(--bg-surface-hover));
+            padding: var(--space-3);
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+        .nova-avatar-small { width: 24px; height: 24px; background: var(--brand-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 10px; }
+        .nova-body { flex: 1; padding: var(--space-3); overflow-y: auto; display: flex; flex-direction: column; gap: var(--space-3); }
+        .chat-msg {
+            max-width: 80%;
+            padding: 8px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+        .chat-msg.nova { align-self: flex-start; background: var(--bg-surface-hover); color: var(--text-primary); border-bottom-left-radius: 2px; }
+        .chat-msg.user { align-self: flex-end; background: var(--brand-primary); color: white; border-bottom-right-radius: 2px; }
+        .nova-input-area { padding: var(--space-2); border-top: 1px solid var(--border-light); display: flex; gap: var(--space-2); }
+        .nova-input { flex: 1; border: none; background: var(--bg-surface-hover); padding: 8px; border-radius: var(--radius-md); font-size: 12px; color: var(--text-primary); }
+
+        /* UTILITIES */
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--space-4);
+        }
+        .flex-row { display: flex; align-items: center; justify-content: space-between; }
+        .mt-4 { margin-top: var(--space-4); }
+        .mb-4 { margin-bottom: var(--space-4); }
+        .w-full { width: 100%; }
+        .text-right { text-align: right; }
+        .text-sm { font-size: 12px; }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            #sidebar {
+                position: fixed;
+                transform: translateX(-100%);
+            }
+            #sidebar.open { transform: translateX(0); box-shadow: var(--shadow-float); }
+            .grid-dashboard, .grid-2-col, .policy-layout { grid-template-columns: 1fr; }
+            .policy-nav { border-right: none; border-bottom: 1px solid var(--border-light); padding-bottom: var(--space-4); margin-bottom: var(--space-4); max-height: 100px; }
+            .nova-chat-window { width: 90vw; right: -10px; }
+        }
+    </style>
+</head>
+<body>
+    <div id="app-root">
+        
+        <aside id="sidebar">
+            <div class="brand-block">
+                <img src="YDLOGO.png" alt="Yogiji Digi" class="brand-logo" onerror="this.style.display='none';this.nextElementSibling.innerText='YOGIJI DIGI'">
+                <span class="brand-name"></span>
+            </div>
+
+            <nav>
+                <div class="nav-section">
+                    <div class="nav-label">Workspace</div>
+                    <a href="#dashboard" class="nav-item active" data-path="dashboard">
+                        <div class="nav-icon"><i class="fa-solid fa-grid-2"></i></div>
+                        Dashboard
+                    </a>
+                    <a href="#attendance" class="nav-item" data-path="attendance">
+                        <div class="nav-icon"><i class="fa-regular fa-clock"></i></div>
+                        Attendance
+                    </a>
+                    <a href="#leaves" class="nav-item" data-path="leaves">
+                        <div class="nav-icon"><i class="fa-regular fa-calendar-check"></i></div>
+                        Leave Management
+                    </a>
+                    <a href="#payroll" class="nav-item" data-path="payroll">
+                        <div class="nav-icon"><i class="fa-solid fa-receipt"></i></div>
+                        Payroll & Payslips
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-label">Organization</div>
+                    <a href="#team" class="nav-item" data-path="team">
+                        <div class="nav-icon"><i class="fa-regular fa-user"></i></div>
+                        Team Directory
+                    </a>
+                    <a href="#documents" class="nav-item" data-path="documents">
+                        <div class="nav-icon"><i class="fa-regular fa-folder-open"></i></div>
+                        Digital Vault
+                    </a>
+                    <a href="#policies" class="nav-item" data-path="policies">
+                        <div class="nav-icon"><i class="fa-solid fa-book-open-reader"></i></div>
+                        Policies
+                    </a>
+                </div>
+            </nav>
+
+            <div style="margin-top: auto;">
+                <div class="nav-section">
+                    <div class="nav-label">System</div>
+                    <a href="#profile" class="nav-item" data-path="profile">
+                        <div class="nav-icon"><i class="fa-solid fa-sliders"></i></div>
+                        Settings
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <div id="main-wrapper">
+            <header id="header">
+                <div class="breadcrumbs">
+                    <span style="color:var(--text-tertiary)">Workspace</span>
+                    <span>/</span>
+                    <span class="breadcrumb-active" id="page-title">Dashboard</span>
+                </div>
+
+                <div class="header-actions">
+                    <div style="font-size:12px; color:var(--text-tertiary); margin-right:8px;">
+                        <span style="border:1px solid var(--border-medium); border-radius:4px; padding:2px 6px;">⌘ K</span>
+                    </div>
+                    
+                    <button class="btn-icon" id="theme-toggle" title="Toggle Theme">
+                        <i class="fa-regular fa-moon"></i>
+                    </button>
+                    
+                    <button class="btn-icon" title="Notifications">
+                        <i class="fa-regular fa-bell"></i>
+                    </button>
+
+                    <div class="user-pill" onclick="window.location.hash='#profile'">
+                        <div class="avatar online">HS</div>
+                        <span class="user-name-text">Harvey Reginald Specter</span>
+                        <i class="fa-solid fa-chevron-down" style="font-size: 10px; color: var(--text-tertiary);"></i>
+                    </div>
+                </div>
+            </header>
+
+            <div id="content-scroll">
+                <div id="view-container" class="container">
+                    </div>
+            </div>
+        </div>
+
+        <div class="nova-widget">
+            <div class="nova-chat-window" id="nova-window">
+                <div class="nova-header">
+                    <div class="nova-avatar-small"><i class="fa-solid fa-sparkles"></i></div>
+                    <div style="font-weight:600; font-size:13px; color:var(--text-primary)">Nova Assistant</div>
+                    <div style="margin-left:auto; cursor:pointer; padding:4px;" onclick="Nova.toggle()"><i class="fa-solid fa-xmark" style="color:var(--text-secondary)"></i></div>
+                </div>
+                <div class="nova-body" id="nova-chat-body">
+                    <div class="chat-msg nova">Hello Harvey! I'm Nova. I am connected via the Secure Cloudflare Proxy. How can I help?</div>
+                </div>
+                <div class="nova-input-area">
+                    <input type="text" class="nova-input" id="nova-input" placeholder="Ask about leaves, policies...">
+                    <button class="btn-icon" style="width:32px; height:32px; border:none; background:var(--brand-primary); color:white;" onclick="Nova.send()"><i class="fa-solid fa-paper-plane" style="font-size:12px;"></i></button>
+                </div>
+            </div>
+            <div class="nova-trigger" onclick="Nova.toggle()">
+                <div class="nova-pulse"></div>
+                <i class="fa-solid fa-robot"></i>
+            </div>
+        </div>
+    </div>
+
+    <div id="cmd-palette-overlay">
+        <div class="cmd-modal">
+            <div class="cmd-input-wrapper">
+                <i class="fa-solid fa-magnifying-glass cmd-icon"></i>
+                <input type="text" id="cmd-input" placeholder="Type a command or search..." autocomplete="off">
+                <span style="font-size:10px; color:var(--text-tertiary); border:1px solid var(--border-medium); padding:2px 4px; border-radius:4px;">ESC</span>
+            </div>
+            <div class="cmd-results" id="cmd-results">
+                </div>
+        </div>
+    </div>
+
+    <div id="toast-container"></div>
+
+    <script>
+        /**
+         * YOGIJI DIGI HR-OS CORE ENGINE v2.0
+         */
+
+        // ✅ Cloudflare Worker AI Proxy
+        const AI_PROXY_URL = "https://dawn-truth-019c.sarthakh23.workers.dev/";
+
+        // --- 1. MOCK DATA LAYER ---
+        const MockData = {
+            currentUser: {
+                id: 'EMP001',
+                name: 'Harvey Reginald Specter',
+                role: 'Senior Product Designer',
+                department: 'Product',
+                joinDate: '2023-01-15',
+                manager: 'Sarah Smith',
+                email: 'harvey.specter@yogijidigi.com',
+                salary: 125000, 
+                leaves: { pl: 12, sl: 4, cl: 2 }
+            },
+            attendance: [
+                { date: 'Mon', status: 'Present', in: '09:02 AM', out: '06:15 PM', hours: 9.2 },
+                { date: 'Tue', status: 'Present', in: '09:15 AM', out: '06:30 PM', hours: 9.25 },
+                { date: 'Wed', status: 'Late', in: '10:05 AM', out: '07:00 PM', hours: 8.9 },
+                { date: 'Thu', status: 'Present', in: '08:55 AM', out: '06:00 PM', hours: 9.1 },
+                { date: 'Fri', status: 'WFH', in: '09:00 AM', out: '06:00 PM', hours: 9.0 },
+            ],
+            colleagues: [
+                { name: 'Sarah Smith', role: 'Director of Product', status: 'active' },
+                { name: 'Mike Ross', role: 'Frontend Lead', status: 'active' },
+                { name: 'Rachel Zane', role: 'Legal Consultant', status: 'leave' },
+                { name: 'Louis Litt', role: 'Head of Sales', status: 'active' }
+            ],
+            holidays: [
+                { date: '26 Jan', name: 'Republic Day' },
+                { date: '15 Aug', name: 'Independence Day' },
+                { date: '02 Oct', name: 'Gandhi Jayanti' },
+                { date: '25 Dec', name: 'Christmas' }
+            ],
+            documents: [
+                { id: 1, name: 'Offer_Letter.pdf', type: 'pdf', size: '2.4 MB', date: 'Jan 15, 2023' },
+                { id: 2, name: 'Form_16_FY24.pdf', type: 'pdf', size: '1.1 MB', date: 'Apr 02, 2024' },
+                { id: 3, name: 'Insurance_Policy.pdf', type: 'pdf', size: '3.5 MB', date: 'Jan 20, 2024' },
+                { id: 4, name: 'Payslips_2025', type: 'folder', size: '12 items', date: 'Dec 31, 2025' },
+                { id: 5, name: 'NDA_Signed.pdf', type: 'pdf', size: '0.8 MB', date: 'Jan 15, 2023' },
+                { id: 6, name: 'Asset_Handover.docx', type: 'doc', size: '156 KB', date: 'Jan 16, 2023' }
+            ],
+            policies: [
+                { id: 'p1', title: 'Code of Conduct', content: '<h2>Code of Conduct</h2><p>Our reputation depends on the conduct of our employees. All employees must maintain the highest standards of professional and ethical conduct.</p><ul><li>Respect colleagues and clients.</li><li>Maintain confidentiality of data.</li><li>Avoid conflicts of interest.</li></ul>' },
+                { id: 'p2', title: 'Leave Policy', content: '<h2>Leave Policy (2026)</h2><p>Employees are entitled to 22 days of paid leave annually. Leaves must be applied for at least 3 days in advance via the HR-OS portal.</p><p><strong>Sick Leave:</strong> Can be availed without prior notice. Medical certificate required for >2 days.</p>' },
+                { id: 'p3', title: 'Remote Work', content: '<h2>Remote Work / WFH</h2><p>We operate on a hybrid model. Employees are expected to be in the office at least 3 days a week. WFH requests are subject to manager approval.</p>' },
+                { id: 'p4', title: 'IT Security', content: '<h2>IT & Data Security</h2><p>Use only company-issued devices for work. Do not share passwords. Report phishing attempts immediately to the IT desk.</p>' }
+            ]
+        };
+
+        // --- 2. STORE (STATE MANAGEMENT) ---
+        class Store {
+            constructor() {
+                this.state = {
+                    theme: 'light',
+                    user: MockData.currentUser,
+                    isSidebarOpen: true,
+                    salaryRevealed: false
+                };
+                this.listeners = [];
+                
+                const savedTheme = localStorage.getItem('yd-theme');
+                if (savedTheme) this.state.theme = savedTheme;
+                else {
+                    const hour = new Date().getHours();
+                    if (hour > 18 || hour < 7) this.state.theme = 'dark';
+                }
+                
+                this.applyTheme();
+            }
+
+            subscribe(fn) { this.listeners.push(fn); }
+
+            update(newState) {
+                this.state = { ...this.state, ...newState };
+                this.listeners.forEach(fn => fn(this.state));
+                if (newState.theme) {
+                    this.applyTheme();
+                    localStorage.setItem('yd-theme', newState.theme);
+                }
+            }
+
+            toggleTheme() { this.update({ theme: this.state.theme === 'light' ? 'dark' : 'light' }); }
+
+            applyTheme() {
+                if (this.state.theme === 'dark') document.body.classList.add('dark-mode');
+                else document.body.classList.remove('dark-mode');
+            }
+        }
+
+        const appStore = new Store();
+
+        // --- 3. UTILITIES ---
+        const Utils = {
+            formatCurrency: (num) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(num),
+            getGreeting: () => {
+                const hour = new Date().getHours();
+                if (hour < 12) return "Good Morning";
+                if (hour < 17) return "Good Afternoon";
+                return "Good Evening";
+            },
+            showToast: (title, message, type = 'info') => {
+                const container = document.getElementById('toast-container');
+                const el = document.createElement('div');
+                el.className = 'toast';
+                let icon = '<i class="fa-solid fa-info"></i>';
+                let color = 'var(--color-info)';
+                if(type === 'success') { icon = '<i class="fa-solid fa-check"></i>'; color = 'var(--color-success)'; }
+                
+                el.innerHTML = `
+                    <div class="toast-icon" style="background:${color}20; color:${color}">${icon}</div>
+                    <div class="toast-content">
+                        <div class="toast-title">${title}</div>
+                        <div class="toast-msg">${message}</div>
+                    </div>
+                `;
+                container.appendChild(el);
+                setTimeout(() => {
+                    el.style.opacity = '0';
+                    el.style.transform = 'translateY(20px)';
+                    setTimeout(() => el.remove(), 300);
+                }, 3000);
+            },
+            simulateScan: (callback) => {
+                const overlay = document.createElement('div');
+                overlay.className = 'retina-scan-overlay';
+                overlay.innerHTML = `
+                    <div style="text-align:center; color:#0f0; font-family:var(--font-mono);">
+                        <i class="fa-solid fa-fingerprint" style="font-size:48px; margin-bottom:16px;"></i>
+                        <div style="text-transform:uppercase; letter-spacing:2px; font-size:12px;">Authenticating...</div>
+                        <div class="scan-line"></div>
+                    </div>
+                `;
+                document.body.appendChild(overlay);
+                setTimeout(() => overlay.style.opacity = '1', 10);
+                setTimeout(() => {
+                    overlay.style.opacity = '0';
+                    setTimeout(() => {
+                        overlay.remove();
+                        callback();
+                    }, 300);
+                }, 1500);
+            }
+        };
+
+        // --- 4. VIEW RENDERERS ---
+        const Components = {
+            StatCard: (title, value, meta, metaType = 'neutral') => `
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">${title}</span>
+                        <i class="fa-solid fa-ellipsis" style="color:var(--text-tertiary)"></i>
+                    </div>
+                    <div class="card-value">${value}</div>
+                    <div class="card-meta ${metaType === 'up' ? 'meta-up' : (metaType === 'down' ? 'meta-down' : 'meta-neutral')}">
+                        ${metaType === 'up' ? '<i class="fa-solid fa-arrow-up"></i>' : (metaType === 'down' ? '<i class="fa-solid fa-arrow-down"></i>' : '')}
+                        ${meta}
+                    </div>
+                </div>
+            `,
+
+            BarChart: () => `
+                <div class="bar-chart">
+                    <div class="bar" style="height: 40%" data-value="Mon: 8h"></div>
+                    <div class="bar" style="height: 60%" data-value="Tue: 9h"></div>
+                    <div class="bar" style="height: 85%" data-value="Wed: 10h"></div>
+                    <div class="bar" style="height: 55%" data-value="Thu: 8.5h"></div>
+                    <div class="bar" style="height: 90%" data-value="Fri: 9.5h"></div>
+                    <div class="bar" style="height: 30%; background-color:var(--text-tertiary)" data-value="Sat: 4h"></div>
+                </div>
+                <div style="display:flex; justify-content:space-between; margin-top:8px; font-size:10px; color:var(--text-tertiary)">
+                    <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+                </div>
+            `
+        };
+
+        const Views = {
+            dashboard: () => {
+                const user = appStore.state.user;
+                return `
+                    <div style="margin-bottom: var(--space-8)">
+                        <h1 style="font-size: 24px; font-weight: 600; color: var(--text-primary);">${Utils.getGreeting()}, ${user.name.split(' ')[0]}</h1>
+                        <p style="color: var(--text-secondary); margin-top:4px;">Here is what's happening at Yogiji Digi today.</p>
+                    </div>
+
+                    <div class="grid-dashboard">
+                        ${Components.StatCard('Avg Work Hrs', '8h 42m', '12% vs last month', 'up')}
+                        ${Components.StatCard('Leave Balance', `${user.leaves.pl} Days`, '2 expiring soon', 'down')}
+                        ${Components.StatCard('Attendance', '98%', 'Top 5% in Org', 'up')}
+                        ${Components.StatCard('Pending Tasks', '4', 'Performance Review', 'neutral')}
+                    </div>
+
+                    <div class="grid-2-col">
+                        <div>
+                            <div class="card" style="height:100%">
+                                <div class="card-header"><span class="card-title">Weekly Attendance Trends</span></div>
+                                ${Components.BarChart()}
+                            </div>
+                        </div>
+                        <div>
+                            <div class="card" style="height:100%">
+                                <div class="card-header"><span class="card-title">Smart Insights</span></div>
+                                <div style="display:flex; flex-direction:column; gap:var(--space-4)">
+                                    <div style="display:flex; gap:12px; align-items:start;">
+                                        <div style="width:8px; height:8px; background:var(--color-warning); border-radius:50%; margin-top:6px;"></div>
+                                        <div>
+                                            <div style="font-weight:500; font-size:13px;">Payroll cutoff in 3 days</div>
+                                            <div style="font-size:11px; color:var(--text-secondary);">Submit tax proofs before 25th.</div>
+                                        </div>
+                                    </div>
+                                    <div style="display:flex; gap:12px; align-items:start;">
+                                        <div style="width:8px; height:8px; background:var(--color-info); border-radius:50%; margin-top:6px;"></div>
+                                        <div>
+                                            <div style="font-weight:500; font-size:13px;">Upcoming Long Weekend</div>
+                                            <div style="font-size:11px; color:var(--text-secondary);">Friday is a holiday (Republic Day).</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            },
+
+            attendance: () => {
+                const logs = MockData.attendance.map(log => `
+                    <tr>
+                        <td style="font-weight:500">${log.date}</td>
+                        <td><span class="badge ${log.status === 'Late' ? 'badge-warning' : (log.status === 'WFH' ? 'badge-info' : 'badge-success')}">${log.status}</span></td>
+                        <td style="font-family:var(--font-mono)">${log.in}</td>
+                        <td style="font-family:var(--font-mono)">${log.out}</td>
+                        <td>${log.hours}h</td>
+                        <td><i class="fa-solid fa-location-dot" style="color:var(--text-tertiary)"></i></td>
+                    </tr>
+                `).join('');
+
+                return `
+                    <div class="grid-2-col">
+                        <div class="card" style="padding:0; overflow:hidden;">
+                            <div class="punch-clock-visual">
+                                <div class="time-display" id="live-clock">00:00:00</div>
+                                <div class="date-display" id="live-date">...</div>
+                                <button class="punch-btn" onclick="Utils.showToast('Punch In', 'Successfully marked attendance at ' + new Date().toLocaleTimeString(), 'success')">PUNCH IN</button>
+                            </div>
+                            <div style="padding:var(--space-6)">
+                                <div class="flex-row">
+                                    <span class="text-sm" style="color:var(--text-secondary)">Shift Timing</span>
+                                    <span class="text-sm" style="font-weight:600">09:00 AM - 06:00 PM</span>
+                                </div>
+                                <div class="flex-row mt-4">
+                                    <span class="text-sm" style="color:var(--text-secondary)">Avg. Punctuality</span>
+                                    <span class="text-sm" style="color:var(--color-success)">98%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="display:flex; flex-direction:column; gap:var(--space-6)">
+                            ${Components.StatCard('Present Days', '18/22', 'Month to date')}
+                            ${Components.StatCard('Shortfall Hours', '0h 0m', 'You are good!', 'up')}
+                        </div>
+                    </div>
+                    <div class="section-title">Log History</div>
+                    <div class="data-table-wrapper">
+                        <table class="data-table">
+                            <thead><tr><th>Date</th><th>Status</th><th>Punch In</th><th>Punch Out</th><th>Total Hrs</th><th>Location</th></tr></thead>
+                            <tbody>${logs}</tbody>
+                        </table>
+                    </div>
+                    <div class="section-title mt-4">Attendance Heatmap</div>
+                    <div class="card">
+                        <div class="heatmap-grid">
+                            ${Array(90).fill(0).map(() => {
+                                const r = Math.random();
+                                const c = r > 0.9 ? 'heat-cell' : (r > 0.6 ? 'heat-cell heat-l1' : (r > 0.3 ? 'heat-cell heat-l2' : 'heat-cell heat-l3'));
+                                return `<div class="${c}"></div>`;
+                            }).join('')}
+                        </div>
+                    </div>
+                `;
+            },
+
+            payroll: () => {
+                const isRevealed = appStore.state.salaryRevealed;
+                const salary = MockData.currentUser.salary;
+                const net = salary * 0.88; 
+
+                return `
+                    <div class="grid-2-col">
+                        <div class="card" style="background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary)); border:none; color:white;">
+                            <div class="card-header">
+                                <span class="card-title" style="color:rgba(255,255,255,0.7)">Net Take Home</span>
+                                <button onclick="window.toggleSalary()" style="background:rgba(255,255,255,0.2); border:none; padding:4px 8px; border-radius:4px; color:white; cursor:pointer">
+                                    <i class="fa-regular ${isRevealed ? 'fa-eye-slash' : 'fa-eye'}"></i>
+                                </button>
+                            </div>
+                            <div class="card-value ${isRevealed ? '' : 'privacy-blur'}" style="color:white; font-size:36px;">
+                                ${Utils.formatCurrency(net)}
+                            </div>
+                            <div class="card-meta" style="color:rgba(255,255,255,0.7)">Next payout: 31st Jan 2026</div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header"><span class="card-title">Earnings</span></div>
+                            <div class="flex-row mb-4"><span class="text-sm">Basic</span><span class="text-sm font-bold">${Utils.formatCurrency(salary * 0.4)}</span></div>
+                            <div class="flex-row mb-4"><span class="text-sm">HRA</span><span class="text-sm font-bold">${Utils.formatCurrency(salary * 0.2)}</span></div>
+                            <div class="flex-row"><span class="text-sm">Special Allowance</span><span class="text-sm font-bold">${Utils.formatCurrency(salary * 0.4)}</span></div>
+                        </div>
+                    </div>
+                    <div class="section-title">Payslip History</div>
+                    <div class="data-table-wrapper">
+                        <table class="data-table">
+                            <thead><tr><th>Month</th><th>Gross</th><th>Deductions</th><th>Net Pay</th><th>Action</th></tr></thead>
+                            <tbody>
+                                <tr><td>Dec 2025</td><td>${Utils.formatCurrency(salary)}</td><td>${Utils.formatCurrency(salary - net)}</td><td>${Utils.formatCurrency(net)}</td><td><button class="punch-btn" style="padding:4px 12px; font-size:11px;" onclick="Utils.showToast('Download', 'Payslip PDF downloading...')">PDF</button></td></tr>
+                                <tr><td>Nov 2025</td><td>${Utils.formatCurrency(salary)}</td><td>${Utils.formatCurrency(salary - net)}</td><td>${Utils.formatCurrency(net)}</td><td><button class="punch-btn" style="padding:4px 12px; font-size:11px;" onclick="Utils.showToast('Download', 'Payslip PDF downloading...')">PDF</button></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            },
+
+            leaves: () => `
+                <div class="grid-dashboard">
+                    ${Components.StatCard('Privilege (PL)', '12', 'Available', 'neutral')}
+                    ${Components.StatCard('Sick (SL)', '4', 'Available', 'neutral')}
+                    ${Components.StatCard('Casual (CL)', '2', 'Available', 'neutral')}
+                    ${Components.StatCard('Comp Off', '0', 'Available', 'neutral')}
+                </div>
+                <div class="card mb-4" style="background-color: var(--bg-surface-hover);">
+                    <div style="display:flex; justify-content:space-between; align-items:center">
+                        <div>
+                            <div style="font-weight:600; font-size:15px;">Plan your time off</div>
+                            <div style="font-size:12px; color:var(--text-secondary)">Requests are usually approved within 24 hours.</div>
+                        </div>
+                        <button class="punch-btn" onclick="Utils.showToast('Apply Leave', 'Opening leave request form...', 'info')">Apply for Leave</button>
+                    </div>
+                </div>
+                <div class="section-title">Upcoming Holidays</div>
+                <div class="grid-dashboard">
+                    ${MockData.holidays.map(h => `
+                        <div class="card" style="text-align:center;">
+                            <div style="font-size:12px; color:var(--text-secondary); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;">${h.date}</div>
+                            <div style="font-weight:600; color:var(--brand-primary);">${h.name}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            `,
+
+            team: () => `
+                <div class="section-title">Product Team</div>
+                <div class="data-table-wrapper">
+                    <table class="data-table">
+                        <thead><tr><th>Employee</th><th>Role</th><th>Status</th><th>Contact</th></tr></thead>
+                        <tbody>
+                            ${MockData.colleagues.map(c => `
+                                <tr>
+                                    <td>
+                                        <div style="display:flex; align-items:center; gap:12px;">
+                                            <div class="avatar" style="width:32px; height:32px; font-size:12px;">${c.name.split(' ').map(n=>n[0]).join('')}</div>
+                                            <span style="font-weight:500">${c.name}</span>
+                                        </div>
+                                    </td>
+                                    <td>${c.role}</td>
+                                    <td><span class="badge ${c.status === 'active' ? 'badge-success' : 'badge-warning'}">${c.status.toUpperCase()}</span></td>
+                                    <td><button class="btn-icon" style="width:28px; height:28px;"><i class="fa-regular fa-envelope"></i></button></td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `,
+            
+            profile: () => `
+                 <div class="card" style="max-width:600px; margin:0 auto;">
+                    <div style="text-align:center; padding-bottom:var(--space-6); border-bottom:1px solid var(--border-light)">
+                        <div class="avatar" style="width:80px; height:80px; font-size:24px; margin:0 auto var(--space-4) auto;">HS</div>
+                        <h2 style="font-size:18px; font-weight:600;">Harvey Reginald Specter</h2>
+                        <div style="color:var(--text-secondary)">Senior Product Designer</div>
+                        <div style="margin-top:8px;"><span class="badge badge-info">EMP001</span></div>
+                    </div>
+                    <div style="padding-top:var(--space-6)">
+                        <div class="flex-row mb-4"><span style="color:var(--text-secondary)">Email</span><span style="font-weight:500">harvey.specter@yogijidigi.com</span></div>
+                        <div class="flex-row mb-4"><span style="color:var(--text-secondary)">Phone</span><span style="font-weight:500">+91 98765 43210</span></div>
+                        <div class="flex-row mb-4"><span style="color:var(--text-secondary)">Manager</span><span style="font-weight:500">Sarah Smith</span></div>
+                        <button class="punch-btn w-full" style="background:transparent; border:1px solid var(--border-medium); color:var(--text-primary); margin-top:var(--space-4)">Edit Profile</button>
+                    </div>
+                 </div>
+            `,
+
+            documents: () => `
+                <div class="flex-row mb-4">
+                    <div class="section-title" style="margin:0">Digital Vault</div>
+                    <button class="punch-btn" style="padding:4px 12px; font-size:12px;" onclick="Utils.showToast('Upload', 'Drag and drop not supported in demo.')"><i class="fa-solid fa-cloud-arrow-up"></i> Upload</button>
+                </div>
+                <div class="vault-grid">
+                    ${MockData.documents.map(d => {
+                        let icon = d.type === 'folder' ? 'fa-folder' : (d.type === 'pdf' ? 'fa-file-pdf' : 'fa-file-word');
+                        return `
+                        <div class="vault-item">
+                            <i class="fa-regular ${icon} vault-icon"></i>
+                            <div class="vault-name">${d.name}</div>
+                            <div class="vault-meta">${d.size} • ${d.date}</div>
+                        </div>
+                        `;
+                    }).join('')}
+                </div>
+            `,
+
+            policies: () => {
+                const p = MockData.policies[0];
+                return `
+                <div class="card policy-layout">
+                    <div class="policy-nav">
+                        <div style="font-size:10px; text-transform:uppercase; color:var(--text-tertiary); margin-bottom:8px; font-weight:600">Table of Contents</div>
+                        ${MockData.policies.map(item => `
+                            <a href="#" onclick="event.preventDefault(); document.getElementById('policy-viewer').innerHTML = '${item.content.replace(/'/g, "\\'")}'" class="policy-link ${item.id==='p1'?'active':''}">${item.title}</a>
+                        `).join('')}
+                    </div>
+                    <div class="policy-content">
+                        <div id="policy-viewer" class="policy-article">
+                            ${p.content}
+                        </div>
+                    </div>
+                </div>
+                `;
+            }
+        };
+
+        // --- 5. ROUTER ---
+        const Router = {
+            routes: {
+                'dashboard': Views.dashboard,
+                'attendance': Views.attendance,
+                'leaves': Views.leaves,
+                'payroll': Views.payroll,
+                'team': Views.team,
+                'profile': Views.profile,
+                'documents': Views.documents,
+                'policies': Views.policies
+            },
+
+            init: () => {
+                window.addEventListener('hashchange', Router.render);
+                Router.render();
+            },
+
+            render: () => {
+                const hash = window.location.hash.slice(1) || 'dashboard';
+                const viewFn = Router.routes[hash] || Router.routes['dashboard'];
+                
+                document.getElementById('view-container').innerHTML = viewFn();
+                document.getElementById('page-title').innerText = hash.charAt(0).toUpperCase() + hash.slice(1);
+                
+                document.querySelectorAll('.nav-item').forEach(el => {
+                    el.classList.remove('active');
+                    if (el.getAttribute('data-path') === hash) el.classList.add('active');
+                });
+
+                const container = document.getElementById('view-container');
+                container.style.opacity = '0';
+                container.style.transform = 'translateY(10px)';
+                setTimeout(() => {
+                    container.style.transition = 'all 0.3s ease-out';
+                    container.style.opacity = '1';
+                    container.style.transform = 'translateY(0)';
+                }, 50);
+            }
+        };
+
+        // --- 6. COMMAND PALETTE ---
+        const CmdPalette = {
+            isOpen: false,
+            commands: [
+                { id: 1, title: 'Go to Dashboard', icon: 'fa-grid-2', action: () => window.location.hash = '#dashboard' },
+                { id: 2, title: 'Apply for Leave', icon: 'fa-calendar-plus', action: () => { window.location.hash = '#leaves'; Utils.showToast('Leave', 'Form opened'); } },
+                { id: 3, title: 'View Payslips', icon: 'fa-receipt', action: () => window.location.hash = '#payroll' },
+                { id: 4, title: 'Toggle Dark Mode', icon: 'fa-moon', action: () => appStore.toggleTheme() },
+                { id: 5, title: 'View Policies', icon: 'fa-book-open', action: () => window.location.hash = '#policies' },
+                { id: 6, title: 'Log Out', icon: 'fa-arrow-right-from-bracket', action: () => alert('Logging out...') }
+            ],
+
+            init: () => {
+                document.addEventListener('keydown', (e) => {
+                    if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); CmdPalette.toggle(); }
+                    if (e.key === 'Escape' && CmdPalette.isOpen) CmdPalette.close();
+                });
+                document.getElementById('cmd-input').addEventListener('input', (e) => CmdPalette.renderResults(e.target.value));
+                document.getElementById('cmd-palette-overlay').addEventListener('click', (e) => {
+                    if(e.target === document.getElementById('cmd-palette-overlay')) CmdPalette.close();
+                });
+            },
+
+            toggle: () => { CmdPalette.isOpen ? CmdPalette.close() : CmdPalette.open(); },
+            open: () => {
+                CmdPalette.isOpen = true;
+                document.getElementById('cmd-palette-overlay').classList.add('open');
+                document.getElementById('cmd-input').focus();
+                CmdPalette.renderResults('');
+            },
+            close: () => {
+                CmdPalette.isOpen = false;
+                document.getElementById('cmd-palette-overlay').classList.remove('open');
+                document.getElementById('cmd-input').value = '';
+            },
+            renderResults: (query) => {
+                const results = CmdPalette.commands.filter(c => c.title.toLowerCase().includes(query.toLowerCase()));
+                const html = results.map((c, index) => `
+                    <div class="cmd-item" onclick="CmdPalette.execute(${c.id})">
+                        <div style="display:flex; align-items:center; gap:12px;">
+                            <i class="fa-solid ${c.icon}" style="color:var(--text-secondary); width:20px; text-align:center;"></i>
+                            <span>${c.title}</span>
+                        </div>
+                        ${index === 0 && query.length > 0 ? '<span class="cmd-shortcut">⏎</span>' : ''}
+                    </div>
+                `).join('');
+                document.getElementById('cmd-results').innerHTML = html || '<div style="padding:12px; color:var(--text-tertiary); text-align:center">No commands found</div>';
+            },
+            execute: (id) => {
+                const cmd = CmdPalette.commands.find(c => c.id === id);
+                if (cmd) { cmd.action(); CmdPalette.close(); }
+            }
+        };
+
+        // --- 7. REAL AI: NOVA (VIA PROXY) ---
+        const Nova = {
+            isOpen: false,
+            toggle: () => {
+                Nova.isOpen = !Nova.isOpen;
+                const win = document.getElementById('nova-window');
+                if(Nova.isOpen) {
+                    win.classList.add('open');
+                    document.getElementById('nova-input').focus();
+                } else {
+                    win.classList.remove('open');
+                }
+            },
+            send: async () => {
+                const input = document.getElementById('nova-input');
+                const text = input.value.trim();
+                if (!text) return;
+
+                const body = document.getElementById('nova-chat-body');
+                body.innerHTML += `<div class="chat-msg user">${text}</div>`;
+                input.value = '';
+                body.scrollTop = body.scrollHeight;
+
+                const loadingId = 'loading-' + Date.now();
+                body.innerHTML += `<div class="chat-msg nova" id="${loadingId}">Thinking...</div>`;
+                body.scrollTop = body.scrollHeight;
+
+                try {
+                    // NEW: Abort Controller for Timeout
+                    const controller = new AbortController();
+                    const timeout = setTimeout(() => controller.abort(), 25000); // 25s timeout
+
+                    const response = await fetch(AI_PROXY_URL, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        signal: controller.signal,
+                        body: JSON.stringify({
+                            inputs: `You are Nova, an HR assistant for Yogiji Digi.
+Employee: ${MockData.currentUser.name}
+Question: ${text}
+
+Answer in under 60 words.`,
+                            parameters: {
+                                max_new_tokens: 120,
+                                temperature: 0.4,
+                                return_full_text: false
+                            }
+                        })
+                    });
+                    
+                    clearTimeout(timeout);
+
+                    const raw = await response.text();
+                    let data;
+                    try { data = JSON.parse(raw); } catch { data = raw; }
+
+                    if (data.estimated_time) {
+                        document.getElementById(loadingId).innerText = `Nova is loading (${Math.ceil(data.estimated_time)}s). Please retry.`;
+                        return;
+                    }
+                    
+                    if (data.error) {
+                        document.getElementById(loadingId).innerText = "AI Error: " + data.error;
+                        return;
+                    }
+
+                    const reply =
+                    typeof data === "string"
+                    ? data
+                    : data.generated_text
+                    || (Array.isArray(data) ? data[0]?.generated_text : "")
+                    || "No response";
+                    
+document.getElementById(loadingId).innerText =
+  typeof reply === "string" ? reply : JSON.stringify(reply);
+
+
+                } catch (error) {
+                    if (error.name === "AbortError") {
+                        document.getElementById(loadingId).innerText = "Nova timed out. Model is busy — try again.";
+                    } else {
+                        document.getElementById(loadingId).innerText = "Network blocked or offline.";
+                    }
+                    console.error(error);
+                }
+            }
+        };
+
+        // --- 8. YDIS INTELLIGENCE ---
+        const YDIS = {
+            Analytics: {
+                computeBurnoutRisk: () => {
+                    const logs = MockData.attendance;
+                    const avgHours = logs.reduce((acc, log) => acc + log.hours, 0) / logs.length;
+                    const leaveBalance = MockData.currentUser.leaves.pl;
+                    if (avgHours > 9.5 && leaveBalance < 5) return { level: 'High', msg: 'Burnout risk detected. Schedule downtime.' };
+                    if (avgHours > 9.0) return { level: 'Moderate', msg: 'Work hours trending high.' };
+                    return { level: 'Low', msg: 'Work-life balance is optimal.' };
+                },
+                analyzePunctuality: () => {
+                    const logs = MockData.attendance;
+                    const lateDays = logs.filter(l => l.status === 'Late').length;
+                    const onTimeStreak = logs.length - lateDays; 
+                    return { score: Math.round((1 - (lateDays / logs.length)) * 100), streak: onTimeStreak };
+                },
+                predictPayroll: () => {
+                    const today = new Date();
+                    const totalDays = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
+                    const daysPassed = today.getDate();
+                    const estEarnings = (MockData.currentUser.salary / totalDays) * daysPassed;
+                    return { projected: estEarnings, taxAlert: today.getDate() > 20 };
+                }
+            },
+            DOM: {
+                observer: null,
+                init: () => {
+                    const target = document.getElementById('view-container');
+                    YDIS.DOM.observer = new MutationObserver((mutations) => {
+                        setTimeout(() => YDIS.DOM.injectIntelligence(), 50);
+                    });
+                    YDIS.DOM.observer.observe(target, { childList: true, subtree: true });
+                },
+                injectIntelligence: () => {
+                    const hash = window.location.hash.slice(1) || 'dashboard';
+                    if (hash === 'dashboard') YDIS.ViewEnhancers.dashboard();
+                    if (hash === 'attendance') YDIS.ViewEnhancers.attendance();
+                    if (hash === 'payroll') YDIS.ViewEnhancers.payroll();
+                }
+            },
+            ViewEnhancers: {
+                dashboard: () => {
+                    const headers = Array.from(document.querySelectorAll('.card-title'));
+                    const insightsHeader = headers.find(el => el.textContent === 'Smart Insights');
+                    if (insightsHeader) {
+                        const container = insightsHeader.parentElement.nextElementSibling;
+                        const burnout = YDIS.Analytics.computeBurnoutRisk();
+                        if (burnout.level !== 'Low') {
+                            const alertHtml = `<div style="display:flex; gap:12px; align-items:start; animation: slideIn 0.5s ease;"><div style="width:8px; height:8px; background:var(--brand-accent); border-radius:50%; margin-top:6px;"></div><div><div style="font-weight:500; font-size:13px; color:var(--brand-primary);">Health Pattern</div><div style="font-size:11px; color:var(--text-secondary);">${burnout.msg}</div></div></div>`;
+                            if (!container.innerHTML.includes('Health Pattern')) container.insertAdjacentHTML('afterbegin', alertHtml);
+                        }
+                    }
+                },
+                attendance: () => {
+                    const punctuality = YDIS.Analytics.analyzePunctuality();
+                    const rows = Array.from(document.querySelectorAll('.flex-row'));
+                    const punctualityRow = rows.find(r => r.textContent.includes('Avg. Punctuality'));
+                    if (punctualityRow) {
+                        const valueSpan = punctualityRow.lastElementChild;
+                        if(!valueSpan.innerText.includes('streak')) valueSpan.innerHTML += ` <span style="font-size:10px; color:var(--text-tertiary); font-weight:400; margin-left:4px;">(${punctuality.streak} day streak)</span>`;
+                    }
+                },
+                payroll: () => {
+                    const metrics = YDIS.Analytics.predictPayroll();
+                    const titles = Array.from(document.querySelectorAll('.card-title'));
+                    const netHeader = titles.find(t => t.textContent.includes('Net Take Home'));
+                    if (netHeader && metrics.taxAlert) {
+                        const card = netHeader.closest('.card');
+                        const reminder = document.createElement('div');
+                        reminder.style.cssText = "position:absolute; bottom:16px; right:16px; font-size:10px; color:rgba(255,255,255,0.6); background:rgba(0,0,0,0.1); padding:2px 6px; border-radius:4px;";
+                        reminder.innerHTML = "<i class='fa-solid fa-calculator'></i> Tax Proofs Due";
+                        if (!card.innerHTML.includes('Tax Proofs')) card.appendChild(reminder);
+                    }
+                }
+            },
+            NLP: {
+                dictionary: { 'vacation': 'leaves', 'break': 'leaves', 'sick': 'leaves', 'money': 'payroll', 'salary': 'payroll', 'tax': 'payroll', 'check in': 'attendance', 'clock': 'attendance', 'boss': 'team', 'hr': 'policies' },
+                init: () => {
+                    CmdPalette.commands.push(
+                        { id: 101, title: 'Check Leave Balance', icon: 'fa-suitcase', action: () => window.location.hash = '#leaves' },
+                        { id: 102, title: 'Download Tax Report', icon: 'fa-file-invoice', action: () => Utils.showToast('Tax', 'Generating Tax Projection...') },
+                        { id: 103, title: 'My Team', icon: 'fa-users', action: () => window.location.hash = '#team' }
+                    );
+                    const input = document.getElementById('cmd-input');
+                    input.addEventListener('keyup', (e) => {
+                        const val = e.target.value.toLowerCase();
+                        for (const [key, route] of Object.entries(YDIS.NLP.dictionary)) {
+                            if (val.includes(key) && e.key === 'Enter') {
+                                window.location.hash = `#${route}`;
+                                CmdPalette.close();
+                                Utils.showToast('AI Nav', `Redirecting to ${route}...`, 'info');
+                            }
+                        }
+                    });
+                }
+            },
+            Persona: {
+                init: () => {
+                    const hour = new Date().getHours();
+                    const day = new Date().getDay();
+                    setTimeout(() => {
+                        if (day === 5 && hour > 14) Utils.showToast('Focus Mode', 'Happy Friday! Wrapping up for the week?', 'success');
+                        else if (hour < 9) Utils.showToast('Early Bird', 'Quiet hours. Notifications muted.', 'info');
+                    }, 2000);
+                }
+            },
+            boot: () => {
+                console.log('YDIS: Intelligence Layer Mounted.');
+                YDIS.DOM.init();
+                YDIS.NLP.init();
+                YDIS.Persona.init();
+                YDIS.DOM.injectIntelligence();
+            }
+        };
+
+        window.toggleSalary = () => {
+            if (!appStore.state.salaryRevealed) {
+                Utils.simulateScan(() => { appStore.update({ salaryRevealed: true }); Router.render(); });
+            } else {
+                appStore.update({ salaryRevealed: false });
+                Router.render();
+            }
+        };
+        
+        setInterval(() => {
+            const now = new Date();
+            const timeEl = document.getElementById('live-clock');
+            const dateEl = document.getElementById('live-date');
+            if(timeEl) timeEl.innerText = now.toLocaleTimeString();
+            if(dateEl) dateEl.innerText = now.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        }, 1000);
+
+        document.getElementById('theme-toggle').addEventListener('click', () => appStore.toggleTheme());
+        document.getElementById('nova-input').addEventListener('keypress', (e) => { if(e.key === 'Enter') Nova.send(); });
+
+        (function boot() {
+            console.log('Yogiji Digi OS: Booting...');
+            Router.init();
+            CmdPalette.init();
+            setTimeout(() => { Utils.showToast('System Ready', 'Welcome to HR-OS v2.0', 'success'); }, 1000);
+        })();
+
+        window.addEventListener('load', YDIS.boot);
+
+    </script>
+</body>
+</html>
